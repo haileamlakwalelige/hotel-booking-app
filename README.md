@@ -27,7 +27,7 @@ This is a RESTful API built with **Express.js** and **MongoDB** for managing hot
 ### Steps to Run
 1. Clone the repository:
    ```sh
-   git clone https://github.com/your-repo/hotel-booking-api.git
+   git clone https://github.com/haileamlakwalelige/hotel-booking-app/
    cd hotel-booking-api
    ```
 2. Install dependencies:
