@@ -1,62 +1,26 @@
 import express from "express";
-import Hotel from "../models/Hotel.js";
+import { countByCity, CreateHotel, DeleteHotel, GetAllHotel, GetSingleHotel, UpdateHotel } from "../controllers/hotelController.js";
+import { verifyAdmin } from "../utils/verifyToken.js";
 
 const router = express.Router();
 
 
 // CREATE
-router.post('/', async (req, res) => {
-
-    const newHotel = new Hotel(req.body);
-
-    try {
-        const savedHotel = await newHotel.save();
-        res.status(200).json(savedHotel);
-    } catch (error) {
-        res.status(500).json(err);
-    }
-})
+router.post('/', verifyAdmin, CreateHotel)
 
 // UPDATE
-router.put('/:id', async (req, res) => {
-
-    try {
-        const updateHotel = await Hotel.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true });
-        res.status(200).json(updateHotel);
-    } catch (error) {
-        res.status(500).json(err);
-    }
-})
+router.put('/:id', verifyAdmin, UpdateHotel)
 
 // GET
-router.get('/:id', async (req, res) => {
-    try {
-        const updateHotel = await Hotel.findById(req.params.id);
-        res.status(200).json(updateHotel);
-    } catch (error) {
-        res.status(500).json(err);
-    }
-})
+router.get('/:id', GetSingleHotel)
 
 
 // GET ALL
-router.get('/', async (req, res) => {
-    try {
-        const updateHotel = await Hotel.find();
-        res.status(200).json(updateHotel);
-    } catch (error) {
-        res.status(500).json(err);
-    }
-})
+router.get('/', GetAllHotel)
+router.get('/countbycity', countByCity)
+// router.get('/countbytype ', GetAllHotel)
 
 // DELETE
-router.delete('/:id', async (req, res) => {
-    try {
-        const updateHotel = await Hotel.findByIdAndDelete(req.params.id);
-        res.status(200).json("Hotel Successfully Deleted!");
-    } catch (error) {
-        res.status(500).json(err);
-    }
-})
+router.delete('/:id', verifyAdmin, DeleteHotel)
 
 export default router;
